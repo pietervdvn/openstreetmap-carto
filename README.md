@@ -16,6 +16,14 @@ are updated from each point release. They supersede the previous [XML-based styl
 You need a PostGIS database populated with OpenStreetMap data in the standard
 osm2pgsql database layout, along with auxillary shapefiles. See [INSTALL.md](INSTALL.md).
 
+To transform `project.mml` (YAML) to `project.json.mml` (JSON) :
+
+`python -c 'import sys, yaml, json; json.dump(yaml.safe_load(sys.stdin), sys.stdout, indent=4, separators=(",", ": "))' < project.mml > project.json.mml`
+
+To create `mapnik.xml` :
+
+`carto -a "3.0.0" project.json.mml > mapnik.xml`
+
 # Contributing
 
 Contributions to this project are welcome, see [CONTRIBUTING.md](CONTRIBUTING.md)
