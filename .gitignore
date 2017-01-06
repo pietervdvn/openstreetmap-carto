@@ -2,6 +2,7 @@
 layers/
 data/
 *.xml
+*.json.mml
 node_modules/
 localconfig.json
 localconfig.js
