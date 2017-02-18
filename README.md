@@ -2,6 +2,8 @@
 
 ![screenshot](https://raw.githubusercontent.com/jbelien/openstreetmap-carto-be/master/preview.png)
 
+[![Build Status](https://travis-ci.org/jbelien/openstreetmap-carto-be.svg?branch=master)](https://travis-ci.org/jbelien/openstreetmap-carto-be)
+
 These are the CartoCSS map stylesheets for the Standard map layer on [OpenStreetMap.org](http://www.openstreetmap.org).
 
 These stylesheets can be used in your own cartography projects, and are designed
