@@ -1,6 +1,6 @@
 # OpenStreetMap Carto
 
-![screenshot](https://raw.github.com/gravitystorm/openstreetmap-carto/master/preview.png)
+![screenshot](https://raw.githubusercontent.com/jbelien/openstreetmap-carto-be/master/preview.png)
 
 These are the CartoCSS map stylesheets for the Standard map layer on [OpenStreetMap.org](http://www.openstreetmap.org).
 
