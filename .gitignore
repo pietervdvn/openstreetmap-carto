@@ -13,3 +13,5 @@ localconfig.js
 # Generated at runtime by Python.
 *.pyc
 **/*.pyc
+
+*.json.mml
