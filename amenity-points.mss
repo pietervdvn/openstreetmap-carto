@@ -1886,7 +1886,7 @@
   [feature = 'amenity_pharmacy'] {
     [zoom >= 17] {
       text-name: "[name]";
-      text-size: @standard-text-size;
+      text-size: @standard-font-size;
       text-dy: 12;
       text-fill: #008800;
       text-face-name: @standard-font;
