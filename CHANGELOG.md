@@ -1,4 +1,88 @@
-## [Unreleased](https://github.com/gravitystorm/openstreetmap-carto/compare/v3.1.0...master)
+## [Unreleased](https://github.com/gravitystorm/openstreetmap-carto/compare/v4.3.0...master)
+### Changes
+- Rendering shop=pastry like shop=confectionery 
+- Rendering of addr:unit
+- Rendering natural=bare_rock earlier
+- Moving aeroways to their own layer
+- Creating amenity POI categories
+- Some other documentation and code cleaning
+
+## [v4.3.0](https://github.com/gravitystorm/openstreetmap-carto/compare/v4.2.0...v4.3.0) - 2017-09-16
+### Changes
+- Moving ford and emergency phone to a new tagging scheme
+- Moving natural=tree to higher zoom level (z18+)
+- Changing embassy color to brown
+- Rendering name for waterway=dock
+- The same line wrap of amenities for all zoom levels
+- Fixing combined railway/highway ordering regression
+- Fixing line wrapping bug in Docker
+- Some documentation and code cleaning
+- Improve ferry line text legibility
+- Hide small theme parks and zoos
+- Use solid lines for admin borders at low zooms
+
+## [v4.2.0](https://github.com/gravitystorm/openstreetmap-carto/compare/v4.1.0...v4.2.0) - 2017-08-25
+### Major changes
+- Water color and default water text color are changed to be more visible
+- Medium zoom level (z8-z12) rework:
+  - Landuses colors are faded and some of them are visible earlier
+  - Most of the man related landuses are combined into one color and more visible
+  - More important roads are better legible
+
+### Changes
+- Leaf type rendering in woods and forests
+- Cemetary symbols are not so dense now and muslim cemetary has its own symbol
+- Rendering of amenity=ferry_terminal
+- Plaque rendering is now different and moved to z19
+- Rendering railway labels
+- Smaller line spaces in labels
+- Junction names on areas 
+- Area color for railway=station is the same as for railways
+- Database perfomance tuning available for Docker
+- Different patterns and all remaining icons moved to SVG
+- Some documentation and code cleaning
+
+## [v4.1.0](https://github.com/gravitystorm/openstreetmap-carto/compare/v4.0.0...v4.1.0) - 2017-07-30
+### Changes
+- Malls are no longer rendered as dots (bug fix)
+- Special icon for shop=tyres
+- Airports rendering changes: removing clutter on z10 and moving name labels under the icon
+- Switching forest, scrub and quarry patterns to SVG
+- Introducing easy to use Docker-based development environment
+- New version of script get-shapefiles.py
+- Small code and documentation improvements
+
+## [v4.0.0](https://github.com/gravitystorm/openstreetmap-carto/compare/v3.3.0...v4.0.0) - 2017-05-22
+### Major changes
+- The database schema has changed from the osm2pgsql default. This requires a database reload.
+- osm2pgsql Lua transforms are used for some preprocessing. This requires osm2pgsql built with lua support, which most versions will have.
+
+### Changes
+- Old-style multipolygons (those with tags on the outer way instead of the relation) are no longer supported
+- Multipolygons composed of multiple areas are now rendered with one label
+- Fixes to various problems determining if an object is an area or not
+- CartoCSS 0.18.0 is required
+
+## [v3.3.1](https://github.com/gravitystorm/openstreetmap-carto/compare/v3.3.0...v3.3.1) - 2017-05-22
+### Changes
+- Fix a regression in intermittent waterways
+
+## [v3.3.0](https://github.com/gravitystorm/openstreetmap-carto/compare/v3.2.0...v3.3.0) - 2017-05-10
+### Changes
+- Most shops are now rendered as dots z17 to deal with overcrowding
+- Font selection is moved to its own file to make customization easier, and to make it easier for other styles to reuse our font work
+- Rare CJK characters outside the BMP should now render better
+- Waterway tunnels in forests and lakes are clearer
+
+## [v3.2.0](https://github.com/gravitystorm/openstreetmap-carto/compare/v3.1.0...v3.2.0) - 2017-04-17
+### Changes
+- Render aeroway terminal buildings like other buildings
+- Removed rendering of `landuse=farm`
+- Added rendering for arts centre, fitness centre, plant nursery, mixed lift aerialways
+- Rendering for fens changed
+- Typography for point road-related features, addresses, and water features changed
+- Removed rendering of `waterway=canal` as an area
+- Take text properties of roads under construction from the type of road they will be
 
 ## [v3.1.0](https://github.com/gravitystorm/openstreetmap-carto/compare/v3.0.1...v3.1.0) - 2017-01-28
 ### Changes

@@ -1,15 +1,23 @@
 # Installation
 
+This document describes how to manually configure your system for running openstreetmap-carto. If you prefer quick, platform independent setup for a development environment, without the need to install and configure tools by hand, follow a Docker installation guide in [DOCKER.md](https://github.com/gravitystorm/openstreetmap-carto/blob/master/DOCKER.md).
+
 ## OpenStreetMap data
-You need OpenStreetMap data loaded into a PostGIS database (see below for [dependencies](#dependencies)). These stylesheets currently work only with the osm2pgsql defaults (i.e. database name is `gis`, table names are `planet_osm_point`, etc).
+You need OpenStreetMap data loaded into a PostGIS database (see below for [dependencies](#dependencies)). These stylesheets expect a database generated with osm2pgsql using the pgsql backend (table names of `planet_osm_point`, etc), the default database name (`gis`), and the [lua transforms](https://github.com/openstreetmap/osm2pgsql/blob/master/docs/lua.md) documented in the instructions below.
 
-It's probably easiest to grab an PBF of OSM data from [Mapzen](https://mapzen.com/metro-extracts/) or [geofabrik](http://download.geofabrik.de/). Once you've set up your PostGIS database, import with osm2pgsql:
+Start by setting up your database to have PostGIS and hstore with
 
 ```
-osm2pgsql -d gis ~/path/to/data.osm.pbf --style openstreetmap-carto.style
+psql -d gis -c 'CREATE EXTENSION postgis; CREATE EXTENSION hstore;'
 ```
 
-You can find a more detailed guide to setting up a database and loading data with osm2pgsql at [switch2osm.org](http://switch2osm.org/loading-osm-data/).
+then grab some OSM data. It's probably easiest to grab an PBF of OSM data from [Mapzen](https://mapzen.com/data/metro-extracts/) or [Geofabrik](http://download.geofabrik.de/). Once you've done that, import with osm2pgsql:
+
+```
+osm2pgsql -G --hstore --style openstreetmap-carto.style --tag-transform-script openstreetmap-carto.lua -d gis ~/path/to/data.osm.pbf
+```
+
+You can find a more detailed guide to setting up a database and loading data with osm2pgsql at [switch2osm.org](https://switch2osm.org/manually-building-a-tile-server-16-04-2-lts/).
 
 ### Custom indexes
 Custom indexes are not required, but will speed up rendering, particularly for full planet databases, heavy load, or other production environments. They will not be as helpful with development using small extracts.
@@ -33,26 +41,32 @@ This script generates and populates the *data* directory with all needed shapefi
 
 You can also download them manually at the following paths:
 
-* [`simplified-land-polygons.shp`](http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip) (updated daily)
-* [`land-polygon.shp`](http://data.openstreetmapdata.com/land-polygons-split-3857.zip) (updated daily)
-* [`builtup_area.shp`](http://planet.openstreetmap.org/historical-shapefiles/world_boundaries-spherical.tgz)
+* [`world_bnd_m.shp`, `builtup_area.shp`, `places.shp`, `world_boundaries_m.shp`](http://planet.openstreetmap.org/historical-shapefiles/world_boundaries-spherical.tgz)
+* [`simplified_land_polygons.shp`](http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip) (updated daily)
 * [`ne_110m_admin_0_boundary_lines_land.shp`](http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_boundary_lines_land.zip)
+* [`land_polygons.shp`](http://data.openstreetmapdata.com/land-polygons-split-3857.zip) (updated daily)
+* [`icesheet_polygons.shp`](http://data.openstreetmapdata.com/antarctica-icesheet-polygons-3857.zip)
+* [`icesheet_outlines.shp`](http://data.openstreetmapdata.com/antarctica-icesheet-outlines-3857.zip)
 
 The repeated www.naturalearthdata.com in the Natural Earth shapefiles is correct.
 
 Put these shapefiles at `path/to/openstreetmap-carto/data`.
 
 ## Fonts
-The stylesheet uses Noto Sans, an openly licensed font from Google with support for multiple scripts. The "UI" version is used where available, with its vertical metrics which fit better with Latin text. Other fonts from the Noto family are used for some other languages.
+The stylesheet uses Noto, an openly licensed font family from Google with support for multiple scripts. The stylesheet uses Noto's "Sans" style where available. If not available, this stylesheet uses another appropriate style of the Noto family. The "UI" version is used where available, with its vertical metrics which fit better with Latin text.
 
 DejaVu Sans is used as an optional fallback font for systems without Noto Sans. If all the Noto fonts are installed, it should never be used.
 
+Hanazono is used a fallback for seldom used CJK characters that are not covered by Noto.
+
 Unifont is used as a last resort fallback, with it's excellent coverage, common presence on machines, and ugly look.
 
-On Ubuntu 16.04 or Debian Testing you can install the required fonts except Noto Emoji Regular with
+### Installation on Ubuntu/Debian
+
+On Ubuntu 16.04 or Debian Testing you can download and install the required fonts except Noto Emoji Regular with
 
 ```
-sudo apt-get install fonts-noto-cjk fonts-noto-hinted fonts-noto-unhinted ttf-unifont
+sudo apt-get install fonts-noto-cjk fonts-noto-hinted fonts-noto-unhinted fonts-hanazono ttf-unifont
 ```
 
 Noto Emoji Regular can be downloaded [from the Noto Emoji repository](https://github.com/googlei18n/noto-emoji).
@@ -60,6 +74,17 @@ Noto Emoji Regular can be downloaded [from the Noto Emoji repository](https://gi
 It might be useful to have a more recent version of the fonts for [rare non-latin scripts](#non-latin-scripts). This can be installed [from source](https://github.com/googlei18n/noto-fonts/blob/master/FAQ.md#where-are-the-fonts).
 
 DejaVu is packaged as `fonts-dejavu-core`.
+
+### Installation on other operation systems
+
+The fonts can be downloaded here:
+
+* [Noto homepage](http://www.google.com/get/noto/) and [Noto github repositories](http://github.com/googlei18n?utf8=%E2%9C%93&q=noto)
+* [DejaVu homepage](http://dejavu-fonts.org/)
+* [Hanazono homepage](http://fonts.jp/hanazono/)
+* [Unifont homepage](http://unifoundry.com/)
+
+After the download, you have to install the font files in the usual way of your operation system.
 
 ### Non-latin scripts
 
@@ -78,7 +103,7 @@ For development, a style design studio is needed.
 
 For deployment, CartoCSS and Mapnik are required.
 
-* [CartoCSS](https://github.com/mapbox/carto) >= 0.16.0 (we're using YAML)
+* [CartoCSS](https://github.com/mapbox/carto) >= 0.18.0 (we're using YAML)
 * [Mapnik](https://github.com/mapnik/mapnik/wiki/Mapnik-Installation) >= 3.0
 
 Remember to run CartoCSS with proper API version to avoid errors (at least 3.0.0: `carto -a "3.0.0"`).

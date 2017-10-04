@@ -4,7 +4,7 @@
 
 We operate the "Fork & Pull" model explained at
 
-https://help.github.com/articles/using-pull-requests
+https://help.github.com/articles/about-pull-requests/
 
 You should fork the project into your own repo, create a topic branch
 there and then make one or more pull requests back to the gravitystorm repository.
@@ -22,18 +22,18 @@ the issue should contain the tagging of the object.
 Some [easy issues](https://github.com/gravitystorm/openstreetmap-carto/issues?q=is%3Aopen+is%3Aissue+label%3Aeasy) have been selected
 that are particularly suitable for new contributors to get familiar with the project's code base and the contribution process.
 
-## Editing Layers
+## Editing layers
 
 OpenStreetMap Carto uses a YAML file for defining layers, because it [works much
 better for big projects](https://github.com/gravitystorm/openstreetmap-carto/issues/711).
-This requires CartoCSS 0.16.0 or later. If you need JSON MML, you can generate it
+This requires CartoCSS 0.18.0 or later. If you need JSON MML, you can generate it
 with `python -c 'import sys, yaml, json; json.dump(yaml.safe_load(sys.stdin), sys.stdout)' < project.mml > project.json`
 or the equivalent in a different language.
 
 [Kosmtik](https://github.com/kosmtik/kosmtik) and CartoCSS can directly load the project from
 the YAML file with `node index.js serve path/to/openstreetmap-carto/project.mml`
 
-## CartoCSS Style Guidelines
+## CartoCSS style guidelines
 
 * Always specify zoom levels as either >= or < . Don't use = or =< or >
 * Open curly braces on the same line, and close on an empty line.
@@ -76,7 +76,7 @@ instead of
   the main definition should be for the lowest zoom level. Also, avoid nesting
   zoom-based overrides. For example:
 
-```
+```mss
 #layer[feature = 'foo'][zoom >= 13] {
   line-width: 6;
   line-color: black;
@@ -89,7 +89,7 @@ instead of
 }
 ```
 instead of
-```
+```mss
 #layer[feature = 'foo'][zoom >= 13] {
   line-width: 10;
   line-color: black;
@@ -102,7 +102,7 @@ instead of
 }
 ```
 
-## SQL Style Guidelines
+## SQL style guidelines
 Because SQL within JSON or YAML will not generally be syntax highlighted, indentation and caps are particularly important.
 
 * SQL keywords in caps, as in PostgreSQL documentation
@@ -115,8 +115,10 @@ Because SQL within JSON or YAML will not generally be syntax highlighted, indent
 * Add indentation if necessary for complex function calls, WHERE parenthesis, and CASE statements
 * One space before and after = etc
 * Name SQL subqueries after the layer name (but use underscores)
+* When extracting tags from hstore, use `tags->'foo'`, not `tags -> 'foo'`, and only add parenthesis if needed for order of operations
+* To check if a tag is in the tags hstore, use `tags @> 'foo=>bar'`, relying on automatic conversion from `text` to `hstore`.
 
-## Map Icon Guidelines
+## Map icon guidelines
 
 * All new icons must be SVG format only.  The SVG must be saved as standards compliant SVG without any proprietary tags. In Inkscape software, you will need to "Save As..." and choose the format Optimized SVG (preferable) or Plain SVG.
 * Icons must use SVG fills only, not SVG strokes or any feature Mapnik does not support.
@@ -127,11 +129,47 @@ Because SQL within JSON or YAML will not generally be syntax highlighted, indent
 * Align vectors to the pixel grid.
 * Make a clean design, so reduced complexity where possible.
 
-### External Icon Design Resources
+### External icon design resources
 The project's goals and design philsophy are different from other projects, but some external resources with general information about icon design are:
 
 * [Maki Icons Design Guidelines](https://www.mapbox.com/maki-icons/guidelines/)
 * [GNOME Icon Design Guildelines](https://developer.gnome.org/hig/stable/icons-and-artwork.html.en)
+
+## Typography
+
+This style uses the font "Noto" for a world-wide coverage of scripts. The font
+size should be ≥ 10 (legibility).
+
+### Multi-line labels
+
+Additional to text-size we have to set text-wrap-width and text-line-spacing.
+For both, the absolute value is meaningless; it should be interpreted relative
+to the font size (em):
+```mss
+text-size: 10;
+text-wrap-width: 30; // 3.0 em
+text-line-spacing: -1.5; // -0.15 em
+```
+If text-size increases on higher zoom levels the other parameters also have
+to be adjusted:
+```mss
+text-size: 12;
+text-wrap-width: 36; // 3.0 em
+text-line-spacing: -1.8; // -0.15 em
+```
+Usually, with higher zoom levels we increase the line length
+(text-wrap-width in em). Following an old typography convention, we use narrow
+line spacing for short lines and wider line spacing for longer lines.
+```mss
+text-size: 15;
+text-wrap-width: 75; // 5.0 em
+text-line-spacing: -0.75; // -0.05 em
+```
+Noto’s line spacing is rather large to allow also tall scripts like Myanmar
+to be rendered without collisions. But the line spacing is too large for
+cartographic usage; therefore we reduce the line spacing. Currently, the
+line spacing ranges from -0.15 em to -0.05 em. (Even at -0.15 em, collisions
+are seldom and even then the text stays legible).
 
 ## Pull requests
 
