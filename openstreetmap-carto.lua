@@ -16,7 +16,7 @@ local polygon_keys = {
     'harbour',
     'historic',
     'landuse',
-	 'landcover',
+    'landcover',
     'leisure',
     'man_made',
     'military',
