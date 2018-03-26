@@ -1,8 +1,10 @@
 # OpenStreetMap Carto
 
-![screenshot](https://raw.github.com/gravitystorm/openstreetmap-carto/master/preview.png)
+![screenshot](https://raw.githubusercontent.com/jbelien/openstreetmap-carto-be/master/preview.png)
 
-These are the CartoCSS map stylesheets for the Standard map layer on [OpenStreetMap.org](http://www.openstreetmap.org).
+[![Build Status](https://travis-ci.org/jbelien/openstreetmap-carto-be.svg?branch=master)](https://travis-ci.org/jbelien/openstreetmap-carto-be)
+
+These are the CartoCSS map stylesheets for the Standard map layer on [OpenStreetMap.org](https://www.openstreetmap.org).
 
 These stylesheets can be used in your own cartography projects, and are designed
 to be easily customised. They work with [Kosmtik](https://github.com/kosmtik/kosmtik)
@@ -15,6 +17,14 @@ are updated from each point release. They supersede the previous [XML-based styl
 
 You need a PostGIS database populated with OpenStreetMap data along with auxillary shapefiles. 
 See [INSTALL.md](INSTALL.md).
+
+To transform `project.mml` (YAML) to `project.json.mml` (JSON) :
+
+    python -c 'import sys, yaml, json; json.dump(yaml.safe_load(sys.stdin), sys.stdout, indent=4, separators=(",", ": "))' < project.mml > project.json.mml
+
+To create `mapnik.xml` :
+
+    carto -a "3.0.0" project.json.mml > mapnik.xml
 
 # Contributing
 
