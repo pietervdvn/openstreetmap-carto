@@ -19,7 +19,7 @@ the issue should contain the tagging of the object.
 
 ## Easy pickings
 
-Some [easy issues](https://github.com/gravitystorm/openstreetmap-carto/issues?q=is%3Aopen+is%3Aissue+label%3Aeasy) have been selected
+Some [easy issues](https://github.com/gravitystorm/openstreetmap-carto/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) have been selected
 that are particularly suitable for new contributors to get familiar with the project's code base and the contribution process.
 
 ## Editing layers
@@ -112,10 +112,11 @@ Because SQL within JSON or YAML will not generally be syntax highlighted, indent
 * Add indentation after `SELECT`s until the end of the sub-select.
 * Add indentation for contents of `FROM`, `WHERE`, `ORDER BY` and other clauses
 * Put content with WHERE, etc if it's short
-* Add indentation if necessary for complex function calls, WHERE parenthesis, and CASE statements
+* Add indentation if necessary for complex function calls, WHERE parentheses, and CASE statements
 * One space before and after = etc
 * Name SQL subqueries after the layer name (but use underscores)
-* When extracting tags from hstore, use `tags->'foo'`, not `tags -> 'foo'`, and only add parenthesis if needed for order of operations
+* When extracting tags from hstore, use `tags->'foo'`, not `tags -> 'foo'`, and only add parentheses if needed for order of operations
+* Hstore queries tested for NULL should be enclosed in parentheses, e.g. `(tags->'foo') IS NULL`.
 * To check if a tag is in the tags hstore, use `tags @> 'foo=>bar'`, relying on automatic conversion from `text` to `hstore`.
 
 ## Map icon guidelines
