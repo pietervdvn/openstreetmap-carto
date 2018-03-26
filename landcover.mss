@@ -55,6 +55,9 @@
 @military: #f55;
 @beach: #fff1ba;
 
+// -- Flowers --
+@roses: #ffb2bf
+
 // --- Sports ---
 
 @pitch: #aae0cb; // also track
@@ -264,6 +267,13 @@
       polygon-fill: @park;
       [way_pixels >= 4]  { polygon-gamma: 0.75; }
       [way_pixels >= 64] { polygon-gamma: 0.3;  }
+    }
+  }
+
+  [feature = 'landuse_flower_bed' ],
+  [feature = 'landcover_flower_bed' ] {
+    [zoom >= 18]{
+      polgyon-fill: @roses;
     }
   }
 
