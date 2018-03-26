@@ -341,17 +341,13 @@
   [feature = 'natural_grassland'][zoom >= 8],
   [feature = 'landuse_meadow'][zoom >= 8],
   [feature = 'landuse_grass'][zoom >= 10],
-  [feature = 'landcover_grass']
+  [feature = 'landcover_grass'],
   [feature = 'landuse_village_green'][zoom >= 10],
-  [feature = 'leisure_common'][zoom >= 10]
- {
+  [feature = 'leisure_common'][zoom >= 10] {
     polygon-fill: @grass;
     [way_pixels >= 4]  { polygon-gamma: 0.75; }
     [way_pixels >= 64] { polygon-gamma: 0.3;  }
   }
-
-
-
 
   [feature = 'landuse_retail'],
   [feature = 'amenity_marketplace'] {
@@ -483,8 +479,7 @@
   }
 
   [feature = 'natural_sand'][zoom >= 8],
-  [feature = 'landcover_sand'][zoom >= 8]
-  {
+  [feature = 'landcover_sand'][zoom >= 8] {
     polygon-fill: @sand;
     [way_pixels >= 4]  { polygon-gamma: 0.75; }
     [way_pixels >= 64] { polygon-gamma: 0.3;  }
@@ -497,8 +492,7 @@
   }
 
   [feature = 'natural_scrub'][zoom >= 10],
-  [feature = 'landcover_bushes'][zoom >= 10]
-  {
+  [feature = 'landcover_bushes'][zoom >= 10] {
     polygon-fill: @scrub;
     [way_pixels >= 4]  { polygon-gamma: 0.75; }
     [way_pixels >= 64] { polygon-gamma: 0.3;  }
