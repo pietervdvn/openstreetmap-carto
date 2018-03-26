@@ -56,7 +56,7 @@
 @beach: #fff1ba;
 
 // -- Flowers --
-@roses: #ffb2bf
+@roses: #ffb2bf;
 
 // --- Sports ---
 
@@ -273,7 +273,7 @@
   [feature = 'landuse_flower_bed' ],
   [feature = 'landcover_flower_bed' ] {
     [zoom >= 18]{
-      polgyon-fill: @roses;
+      polygon-fill: @roses;
     }
   }
 
